@@ -6,6 +6,8 @@ export default defineConfig({
   description: "知识库文档",
   lang: 'zh-CN',
   lastUpdated: true,
+  // 添加 base 配置，对应 GitHub 仓库名称
+  base: '/iknow-docs/',
   head: [
     ['link', { rel: 'icon', href: '/logo.svg', type: 'image/svg+xml' }],
   ],
