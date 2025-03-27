@@ -1,0 +1,284 @@
+/* Custom CSS for iKnow Docs */
+
+:root {
+  --vp-c-brand: #3eaf7c;
+  --vp-c-brand-light: #4abf8a;
+  --vp-c-brand-lighter: #5ecf99;
+  --vp-c-brand-dark: #2c8f67;
+  --vp-c-brand-darker: #1b7a52;
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(120deg, #4d7fff 30%, #9d4edd);
+  --vp-home-hero-image-background-image: linear-gradient(-45deg, #4d7fff 50%, #9d4edd 50%);
+  --vp-home-hero-image-filter: blur(40px);
+}
+
+/* Logo 样式优化 */
+.VPNavBarTitle .logo {
+  margin-right: 8px;
+  height: 32px;
+  width: auto;
+}
+
+/* 首页 logo 样式优化 */
+.VPHomeHero .image-bg {
+  opacity: 0.8;
+  filter: blur(40px);
+}
+
+.VPHomeHero .image-container {
+  width: 300px;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.VPHomeHero .image-container img {
+  width: 100%;
+  height: auto;
+  max-width: 280px;
+}
+
+/* 首页特殊样式 */
+.VPHomeHero .name,
+.VPHomeHero .text {
+  font-weight: 700;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+.VPHomeHero .name {
+  font-size: 4rem;
+  line-height: 4.5rem;
+}
+
+.VPHomeHero .text {
+  font-size: 2.5rem;
+  line-height: 3rem;
+  color: #4d7fff;
+}
+
+.VPHomeHero .tagline {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* 首页按钮样式 - 简约大气豪迹 */
+.VPHero .VPButton {
+  border-radius: 4px;
+  padding: 0 24px;
+  font-weight: 500;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  border: none;
+  height: 44px;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.VPHero .VPButton.brand {
+  background: #2c3e50;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.VPHero .VPButton.brand:hover {
+  background: #34495e;
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.VPHero .VPButton.sponsor {
+  background: #7f8c8d;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.VPHero .VPButton.sponsor:hover {
+  background: #95a5a6;
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* 暗黑模式下的按钮样式 */
+.dark .VPHero .VPButton.brand {
+  background: #3498db;
+  box-shadow: 0 2px 6px rgba(52, 152, 219, 0.3);
+}
+
+.dark .VPHero .VPButton.brand:hover {
+  background: #2980b9;
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+}
+
+.dark .VPHero .VPButton.sponsor {
+  background: #9b59b6;
+  box-shadow: 0 2px 6px rgba(155, 89, 182, 0.3);
+}
+
+.dark .VPHero .VPButton.sponsor:hover {
+  background: #8e44ad;
+  box-shadow: 0 4px 12px rgba(155, 89, 182, 0.4);
+}
+
+/* 首页特性卡片样式 - 简约大气豪迹 */
+.VPFeature {
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  border-radius: 4px;
+  border: none;
+  padding: 30px 24px;
+  background-color: #f8f9fa;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.VPFeature:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+/* 特性卡片图标样式 */
+.VPFeature .icon {
+  font-size: 32px;
+  margin-bottom: 16px;
+  display: inline-block;
+  color: #2c3e50;
+  padding: 0;
+}
+
+/* 特性卡片标题样式 */
+.VPFeature .title {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: #2c3e50;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* 特性卡片详情样式 */
+.VPFeature .details {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #5a6a7a;
+}
+
+/* 暗黑模式下的特性卡片样式 */
+.dark .VPFeature {
+  background-color: #1a1a1a;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.dark .VPFeature:hover {
+  background-color: #222222;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.dark .VPFeature .icon {
+  color: #3498db;
+}
+
+.dark .VPFeature .title {
+  color: #3498db;
+}
+
+.dark .VPFeature .details {
+  color: #bdc3c7;
+}
+
+/* 导航栏样式 */
+.VPNavBar {
+  backdrop-filter: blur(8px);
+  background-color: rgba(255, 255, 255, 0.8) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* 暗黑模式下的导航栏样式 */
+.dark .VPNavBar {
+  background-color: rgba(36, 36, 36, 0.8) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* 自定义容器样式 */
+.custom-block {
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.custom-block.tip {
+  background-color: rgba(62, 175, 124, 0.1);
+  border-left: 4px solid var(--vp-c-brand);
+}
+
+.custom-block.warning {
+  background-color: rgba(255, 197, 23, 0.1);
+  border-left: 4px solid #ffc517;
+}
+
+.custom-block.danger {
+  background-color: rgba(237, 60, 80, 0.1);
+  border-left: 4px solid #ed3c50;
+}
+
+/* 暗黑模式下的自定义容器样式 */
+.dark .custom-block {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.dark .custom-block.tip {
+  background-color: rgba(62, 175, 124, 0.05);
+}
+
+.dark .custom-block.warning {
+  background-color: rgba(255, 197, 23, 0.05);
+}
+
+.dark .custom-block.danger {
+  background-color: rgba(237, 60, 80, 0.05);
+}
+
+/* 代码块样式 */
+div[class*='language-'] {
+  border-radius: 8px;
+  margin: 16px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 暗黑模式下的代码块样式 */
+.dark div[class*='language-'] {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Logo动画 */
+.dynamic-logo {
+  transition: transform 0.3s ease;
+}
+.dynamic-logo:hover {
+  transform: translateY(-2px);
+}
+.vp-nav-logo {
+  max-height: 42px !important;
+  filter: brightness(1.1);
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* 暗黑模式下的 Logo 样式 */
+.dark .vp-nav-logo {
+  filter: brightness(1.2) contrast(1.1);
+}
+
+/* 移除所有可能的边框 */
+.VPHomeHero .image-container,
+.VPHomeHero .image-container img,
+.VPImage {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
