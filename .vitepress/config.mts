@@ -9,7 +9,11 @@ export default defineConfig({
   // 添加 base 配置，对应 GitHub 仓库名称
   base: '/iknow-docs/',
   head: [
-    ['link', { rel: 'icon', href: '/logo.svg', type: 'image/svg+xml' }],
+    ['link', { rel: 'icon', href: '/iknow-docs/logo.svg', type: 'image/svg+xml' }],
+    // 添加 apple-touch-icon 以支持 iOS 设备
+    ['link', { rel: 'apple-touch-icon', href: '/iknow-docs/logo.svg' }],
+    // 添加 mask-icon 以支持 Safari 浏览器的 pinned tabs
+    ['link', { rel: 'mask-icon', href: '/iknow-docs/logo.svg', color: '#3eaf7c' }],
   ],
 
   themeConfig: {
