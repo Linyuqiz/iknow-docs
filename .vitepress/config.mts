@@ -47,7 +47,8 @@ export default defineConfig({
       { 
         text: '操作系统', 
         items: [
-          { text: '软件安装', link: '/operate-system/software-install/' }
+          { text: '软件安装', link: '/operate-system/software-install/' },
+          { text: '开发工具', link: '/operate-system/dev-tools/' }
         ]
       },
       { 
@@ -159,6 +160,18 @@ export default defineConfig({
                 }
               ]
             }
+          ]
+        }
+      ],
+      '/operate-system/dev-tools/': [
+        {
+          text: '开发工具',
+          collapsed: false,
+          items: [
+            { text: '概述', link: '/operate-system/dev-tools/' },
+            { text: 'curl', link: '/operate-system/dev-tools/curl' },
+            { text: 'gRPCurl', link: '/operate-system/dev-tools/grpcurl' },
+            { text: 'rsync', link: '/operate-system/dev-tools/rsync' }
           ]
         }
       ],
