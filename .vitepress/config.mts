@@ -21,79 +21,149 @@ export default defineConfig({
     logo: '/logo.svg',
     nav: [
       { text: '首页', link: '/' },
-      { text: 'Go', link: '/go/' },
-      { text: 'Rust', link: '/rust/' },
-      { text: '中间件', link: '/middleware/' },
-      { text: 'DevOps', link: '/devops/' },
-      { text: '关于', link: '/about/' }
+      { 
+        text: '编程语言', 
+        items: [
+          { text: 'Go 编程', link: '/programming/go/' },
+          { text: 'Rust 编程', link: '/programming/rust/' }
+        ]
+      },
+      { 
+        text: '中间件', 
+        items: [
+          { text: '数据库', link: '/middleware/databases/' },
+          { text: '消息队列', link: '/middleware/message-queues/' },
+          { text: '缓存系统', link: '/middleware/caching/' }
+        ]
+      },
+      { 
+        text: '系统架构', 
+        items: [
+          { text: '分布式系统', link: '/architecture/distributed-systems/' },
+          { text: '微服务架构', link: '/architecture/microservices/' },
+          { text: '云原生应用', link: '/architecture/cloud-native/' }
+        ]
+      },
+      { 
+        text: '操作系统', 
+        items: [
+          { text: '软件安装', link: '/operate-system/software-install/' }
+        ]
+      },
+      { 
+        text: '个人博客', 
+        items: [
+          { text: '技术随笔', link: '/personal-blog/tech-notes/' },
+          { text: '学习心得', link: '/personal-blog/learning/' },
+          { text: '项目分享', link: '/personal-blog/projects/' }
+        ]
+      }
     ],
 
     sidebar: {
-      '/go/': [
+      '/programming/go/': [
         {
           text: 'Go 编程',
           collapsed: false,
           items: [
-            { text: '简介', link: '/go/' },
-            { text: '基础语法', link: '/go/basic-syntax' },
-            { text: '数据结构', link: '/go/data-structures' },
-            { text: '并发编程', link: '/go/concurrency' }
+            { text: '概述', link: '/programming/go/' },
+            { text: '基础语法', link: '/programming/go/basic-syntax' },
+            { text: '数据结构', link: '/programming/go/data-structures' },
+            { text: '并发编程', link: '/programming/go/concurrency' }
           ]
         }
       ],
-      '/rust/': [
+      '/programming/rust/': [
         {
           text: 'Rust 编程',
           collapsed: false,
           items: [
-            { text: '简介', link: '/rust/' },
-            { text: '基础语法', link: '/rust/basic-syntax' },
-            { text: '所有权与借用', link: '/rust/ownership' },
-            { text: '并发编程', link: '/rust/concurrency' }
+            { text: '概述', link: '/programming/rust/' },
+            { text: '基础语法', link: '/programming/rust/basic-syntax' },
+            { text: '并发编程', link: '/programming/rust/concurrency' }
           ]
         }
       ],
-      '/middleware/': [
+      '/middleware/databases/': [
         {
-          text: '中间件',
+          text: '数据库',
           collapsed: false,
           items: [
-            { text: '概述', link: '/middleware/' },
-            { text: '数据库', link: '/middleware/databases' },
-            { text: '消息队列', link: '/middleware/message-queues' },
-            { text: '缓存', link: '/middleware/caching' }
+            { text: '概述', link: '/middleware/databases/' },
           ]
         }
       ],
-      '/devops/': [
+      '/middleware/message-queues/': [
         {
-          text: 'DevOps',
+          text: '消息队列',
           collapsed: false,
           items: [
-            { text: '概述', link: '/devops/' },
-            { text: 'Docker', link: '/devops/docker' },
-            { text: 'Kubernetes', link: '/devops/kubernetes' }
+            { text: '概述', link: '/middleware/message-queues/' },
           ]
-        },
+        }
+      ],
+      '/middleware/caching/': [
         {
-          text: 'Linux 软件',
+          text: '缓存系统',
           collapsed: false,
           items: [
-            { text: '概述', link: '/devops/linux/software/' },
-            {
-              text: 'Slurm',
+            { text: '概述', link: '/middleware/caching/' },
+          ]
+        }
+      ],
+      '/architecture/distributed-systems/': [
+        {
+          text: '分布式系统',
+          collapsed: false,
+          items: [
+            { text: '概述', link: '/architecture/distributed-systems/' },
+          ]
+        }
+      ],
+      '/architecture/microservices/': [
+        {
+          text: '微服务架构',
+          collapsed: false,
+          items: [
+            { text: '概述', link: '/architecture/microservices/' },
+          ]
+        }
+      ],
+      '/architecture/cloud-native/': [
+        {
+          text: '云原生应用',
+          collapsed: false,
+          items: [
+            { text: '概述', link: '/architecture/cloud-native/' },
+          ]
+        }
+      ],
+      '/operate-system/software-install/': [
+        {
+          text: '软件安装',
+          collapsed: false,
+          items: [
+            { text: '概述', link: '/operate-system/software-install/' },
+            { 
+              text: 'Linux 软件', 
               collapsed: false,
               items: [
-                { text: '概述', link: '/devops/linux/software/slurm/' },
-                { text: '单机版 (Rocky 9)', link: '/devops/linux/software/slurm/standalone' },
+                { text: 'Slurm', link: '/operate-system/software-install/linux/slurm/' },
+                { text: '单机版 (Rocky 9)', link: '/operate-system/software-install/linux/slurm/standalone' }
               ]
             }
           ]
-        },
+        }
+      ],
+      '/personal-blog/': [
         {
-          text: 'Mac 软件',
+          text: '个人博客',
           collapsed: false,
-          items: []
+          items: [
+            { text: '技术随笔', link: '/personal-blog/tech-notes/' },
+            { text: '学习心得', link: '/personal-blog/learning/' },
+            { text: '项目分享', link: '/personal-blog/projects/' }
+          ]
         }
       ]
     },
