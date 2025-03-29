@@ -162,17 +162,33 @@ export default defineConfig({
           ]
         }
       ],
-      '/personal-blog/': [
+      '/personal-blog/tech-notes/': [
         {
-          text: '个人博客',
+          text: '技术随笔',
           collapsed: false,
           items: [
-            { text: '技术随笔', link: '/personal-blog/tech-notes/' },
-            { text: '学习心得', link: '/personal-blog/learning/' },
-            { text: '项目分享', link: '/personal-blog/projects/' }
+            { text: '概述', link: '/personal-blog/tech-notes/' },
           ]
         }
-      ]
+      ],
+      '/personal-blog/learning/': [
+        {
+          text: '学习心得',
+          collapsed: false,
+          items: [
+            { text: '概述', link: '/personal-blog/learning/' },
+          ]
+        }
+      ],
+      '/personal-blog/projects/': [
+        {
+          text: '项目分享',
+          collapsed: false,
+          items: [
+            { text: '概述', link: '/personal-blog/projects/' },
+          ]
+        }
+      ],
     },
 
     socialLinks: [
