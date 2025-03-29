@@ -6,187 +6,212 @@
 
 确保你的系统满足以下要求：
 - Rocky Linux 9（最小安装）
-- 具有 sudo 权限的用户账户
+- 具有 root 权限的用户账户（或 sudo 权限）
 - 网络连接以下载必要的软件包
+- 至少 2GB 内存和 20GB 磁盘空间
+
+## 前置准备
+
+### 配置系统软件源
+
+首先，我们需要启用 Rocky Linux 的开发软件源，以获取所需的开发工具和库：
+
+```bash
+dnf install -y 'dnf-command(config-manager)'
+dnf config-manager --set-enabled devel
+dnf clean all && dnf makecache
+```
 
 ## 安装步骤
 
 ### 1. 安装必要的依赖
 
-首先，更新系统并安装必要的依赖：
+首先，安装开发工具和所有必要的依赖包：
 
 ```bash
-sudo dnf update -y
-sudo dnf install -y epel-release
-sudo dnf install -y munge munge-libs munge-devel
-sudo dnf install -y mariadb mariadb-server mariadb-devel
-sudo dnf install -y gcc make readline-devel perl-ExtUtils-MakeMaker pam-devel rpm-build
-sudo dnf install -y openssl openssl-devel python3
+# 安装开发工具组
+dnf group install -y "Development Tools"
+
+# 安装所有必要的依赖
+dnf install -y mariadb mariadb-server mariadb-devel \
+               munge munge-libs munge-devel \
+               hwloc-libs hwloc-devel \
+               pam-devel perl-ExtUtils-MakeMaker readline-devel \
+               kernel-headers dbus-devel rpm-build \
+               python3-devel perl-Switch perl-devel perl-CPAN \
+               vim wget bash-completion
 ```
 
-### 2. 配置 MUNGE 认证服务
+### 2. 配置 MariaDB 数据库
+
+Slurm 使用 MariaDB 存储作业记录和账户信息：
+
+```bash
+# 启动 MariaDB 服务
+systemctl start mariadb --now
+
+# 配置 MariaDB（以下命令会提示输入密码，默认无密码直接回车）
+mysql -uroot -p <<EOF
+create database slurm_acct_db;
+use mysql;
+alter user 'root'@'localhost' IDENTIFIED BY 'qwer1234';
+grant all on *.* to 'root'@'%' identified by 'qwer1234';
+create user 'slurm'@'localhost' identified by 'qwer1234';
+grant all on slurm_acct_db.* TO 'slurm'@'localhost';
+flush privileges;
+exit
+EOF
+```
+
+::: warning 注意
+在生产环境中，请使用更强的密码替换 'qwer1234'，并限制数据库访问权限。
+:::
+
+### 3. 配置 MUNGE 认证服务
 
 MUNGE 是 Slurm 用于节点间认证的服务：
 
 ```bash
 # 创建 MUNGE 密钥
-sudo /usr/sbin/create-munge-key -r
+create-munge-key
 
 # 设置正确的权限
-sudo chown munge:munge /etc/munge/munge.key
-sudo chmod 400 /etc/munge/munge.key
+chown munge:munge /etc/munge/munge.key
+chmod 400 /etc/munge/munge.key
 
 # 启动 MUNGE 服务
-sudo systemctl enable munge
-sudo systemctl start munge
-
-# 测试 MUNGE 是否正常工作
-munge -n | unmunge
+systemctl start munge --now
 ```
 
-### 3. 安装 Slurm
+### 4. 安装 Slurm
 
-下载并安装 Slurm：
+下载并安装最新版本的 Slurm：
 
 ```bash
-# 下载 Slurm 源码
-cd /tmp
-wget https://download.schedmd.com/slurm/slurm-23.02.3.tar.bz2
-tar xvf slurm-23.02.3.tar.bz2
-cd slurm-23.02.3
+# 下载 Slurm 源码包（使用最新的 24.11.3 版本）
+wget https://download.schedmd.com/slurm/slurm-24.11.3.tar.bz2
 
-# 配置并编译 Slurm
-./configure --prefix=/usr --sysconfdir=/etc/slurm
-make
-sudo make install
+# 使用 rpmbuild 构建 RPM 包
+rpmbuild -ta slurm-24.11.3.tar.bz2
+
+# 安装所有生成的 RPM 包
+dnf localinstall -y rpmbuild/RPMS/x86_64/*
 ```
 
-### 4. 配置 Slurm
+::: tip 提示
+使用 RPM 包安装比从源码编译安装更加简单可靠，便于后续的升级和维护。
+:::
 
-创建必要的目录和用户：
+### 5. 配置 Slurm
+
+#### 5.1 创建 Slurm 用户和目录
 
 ```bash
+# 复制示例配置文件
+cp /etc/slurm/slurm.conf.example /etc/slurm/slurm.conf
+cp /etc/slurm/slurmdbd.conf.example /etc/slurm/slurmdbd.conf
+cp /etc/slurm/cgroup.conf.example /etc/slurm/cgroup.conf
+
 # 创建 Slurm 用户和组
-sudo groupadd -g 992 slurm
-sudo useradd -m -c "Slurm workload manager" -d /var/lib/slurm -u 992 -g slurm -s /bin/bash slurm
+groupadd -g 2000 slurm && useradd -u 2000 -g 2000 -s /sbin/nologin -M slurm
 
 # 创建必要的目录
-sudo mkdir -p /etc/slurm /var/spool/slurmd /var/spool/slurmctld /var/log/slurm
-sudo chown slurm:slurm /var/spool/slurmd /var/spool/slurmctld /var/log/slurm
+mkdir -p /etc/sysconfig/slurm \
+        /var/spool/slurmd \
+        /var/spool/slurmctld \
+        /var/log/slurm \
+        /var/run/slurm \
+        /var/run/slurmdbd
+
+# 设置正确的权限
+chown -R slurm:slurm /var/spool/slurmd \
+        /var/spool/slurmctld \
+        /var/log/slurm \
+        /var/run/slurm \
+        /var/run/slurmdbd \
+        /etc/slurm/slurmdbd.conf
 ```
 
-创建 Slurm 配置文件：
+#### 5.2 配置 slurm.conf
+
+编辑 Slurm 主配置文件：
 
 ```bash
-sudo nano /etc/slurm/slurm.conf
+vim /etc/slurm/slurm.conf
 ```
 
-添加以下基本配置（根据你的系统调整）：
+替换为以下内容（根据你的主机名调整）：
 
 ```
-# slurm.conf
-ClusterName=localhost
-SlurmctldHost=localhost
-MpiDefault=none
-ProctrackType=proctrack/pgid
-ReturnToService=1
-SlurmctldPidFile=/var/run/slurmctld.pid
-SlurmctldPort=6817
-SlurmdPidFile=/var/run/slurmd.pid
-SlurmdPort=6818
-SlurmdSpoolDir=/var/spool/slurmd
-SlurmUser=slurm
-StateSaveLocation=/var/spool/slurmctld
-SwitchType=switch/none
-TaskPlugin=task/none
-FastSchedule=1
-SchedulerType=sched/backfill
-SelectType=select/cons_res
-SelectTypeParameters=CR_CPU
+SlurmctldHost=rocky  # 替换为你的主机名
 
-# 节点定义
-NodeName=localhost CPUs=1 State=UNKNOWN
-PartitionName=debug Nodes=localhost Default=YES MaxTime=INFINITE State=UP
+AccountingStorageType=accounting_storage/slurmdbd
+AccountingStorageUser=slurm
+AccountingStoreFlags=slurm_acct_db
+
+NodeName=rocky CPUs=4 State=UNKNOWN  # 替换为你的主机名和实际CPU数量
+PartitionName=compute Nodes=rocky Default=YES MaxTime=INFINITE State=UP  # 替换为你的主机名
 ```
 
-### 5. 创建 systemd 服务文件
+::: warning 重要提示
+请将上述配置中的 `rocky` 替换为你的实际主机名，可以通过 `hostname` 命令查看。
+:::
 
-为 Slurm 控制守护进程创建服务文件：
+#### 5.3 配置 slurmdbd.conf
+
+编辑 Slurm 数据库守护进程配置文件：
 
 ```bash
-sudo nano /etc/systemd/system/slurmctld.service
+vim /etc/slurm/slurmdbd.conf
 ```
 
-添加以下内容：
+替换为以下内容：
 
 ```
-[Unit]
-Description=Slurm controller daemon
-After=network.target munge.service
-ConditionPathExists=/etc/slurm/slurm.conf
-
-[Service]
-Type=forking
-EnvironmentFile=-/etc/sysconfig/slurmctld
-ExecStart=/usr/sbin/slurmctld $SLURMCTLD_OPTIONS
-ExecReload=/bin/kill -HUP $MAINPID
-PIDFile=/var/run/slurmctld.pid
-LimitNOFILE=65536
-
-[Install]
-WantedBy=multi-user.target
-```
-
-为 Slurm 节点守护进程创建服务文件：
-
-```bash
-sudo nano /etc/systemd/system/slurmd.service
-```
-
-添加以下内容：
-
-```
-[Unit]
-Description=Slurm node daemon
-After=network.target munge.service
-ConditionPathExists=/etc/slurm/slurm.conf
-
-[Service]
-Type=forking
-EnvironmentFile=-/etc/sysconfig/slurmd
-ExecStart=/usr/sbin/slurmd $SLURMD_OPTIONS
-ExecReload=/bin/kill -HUP $MAINPID
-PIDFile=/var/run/slurmd.pid
-LimitNOFILE=131072
-LimitMEMLOCK=infinity
-LimitSTACK=infinity
-
-[Install]
-WantedBy=multi-user.target
+StorageHost=localhost
+StoragePort=3306
+StoragePass=qwer1234  # 使用你在MariaDB设置的密码
+StorageUser=slurm
+StorageLoc=slurm_acct_db
 ```
 
 ### 6. 启动 Slurm 服务
 
-重新加载 systemd 配置并启动服务：
+Slurm RPM 包已经自动创建了所需的 systemd 服务文件，我们只需要按顺序启动这些服务：
 
 ```bash
-sudo systemctl daemon-reload
-sudo systemctl enable slurmctld slurmd
-sudo systemctl start slurmctld slurmd
+# 启动 Slurm 节点守护进程
+systemctl start slurmd --now
+
+# 启动 Slurm 数据库守护进程
+systemctl start slurmdbd --now
+
+# 等待 slurmdbd 完全启动
+sleep 3
+
+# 启动 Slurm 控制守护进程
+systemctl start slurmctld --now
 ```
+
 
 ### 7. 验证安装
 
 检查 Slurm 服务状态：
 
 ```bash
-sudo systemctl status slurmctld slurmd
+systemctl status slurmctld slurmd slurmdbd
 ```
 
-查看节点状态：
+查看节点和分区状态：
 
 ```bash
 sinfo
+```
+
+查看集群信息：
+
+```bash
+scontrol show config
 ```
 
 提交测试作业：
@@ -195,22 +220,14 @@ sinfo
 srun -N1 hostname
 ```
 
-## 故障排除
-
-如果遇到问题，请检查日志文件：
+查看作业队列：
 
 ```bash
-sudo tail -f /var/log/slurm/slurmctld.log
-sudo tail -f /var/log/slurm/slurmd.log
+squeue
 ```
 
-常见问题：
-
-1. **MUNGE 认证失败**：确保 MUNGE 密钥权限正确，并且 MUNGE 服务正在运行。
-2. **节点状态为 DOWN**：检查 slurmd 日志，可能是配置问题或资源不匹配。
-3. **无法启动服务**：确保所有必要的目录都已创建，并且具有正确的权限。
-
-## 参考资源
+## 参考资料
 
 - [Slurm 官方文档](https://slurm.schedmd.com/documentation.html)
 - [Slurm 配置示例](https://slurm.schedmd.com/configurator.html)
+- [Slurm 故障排除指南](https://slurm.schedmd.com/troubleshoot.html)

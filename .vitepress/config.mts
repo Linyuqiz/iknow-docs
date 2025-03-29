@@ -148,8 +148,15 @@ export default defineConfig({
               text: 'Linux 软件', 
               collapsed: false,
               items: [
-                { text: 'Slurm', link: '/operate-system/software-install/linux/slurm/' },
-                { text: '单机版 (Rocky 9)', link: '/operate-system/software-install/linux/slurm/standalone' }
+                { 
+                  text: 'Slurm', 
+                  collapsed: false,
+                  items: [
+                    { text: '概述', link: '/operate-system/software-install/linux/slurm/' },
+                    { text: '单机版', link: '/operate-system/software-install/linux/slurm/standalone' },
+                    { text: '基本命令', link: '/operate-system/software-install/linux/slurm/commands' },
+                  ]
+                }
               ]
             }
           ]
