@@ -24,8 +24,7 @@ export default defineConfig({
       { 
         text: '编程语言', 
         items: [
-          { text: 'Go 编程', link: '/programming/go/' },
-          { text: 'Rust 编程', link: '/programming/rust/' }
+          { text: 'Go 编程', link: '/programming/go/' }
         ]
       },
       { 
@@ -71,17 +70,6 @@ export default defineConfig({
             { text: '基础语法', link: '/programming/go/basic-syntax' },
             { text: '数据结构', link: '/programming/go/data-structures' },
             { text: '并发编程', link: '/programming/go/concurrency' }
-          ]
-        }
-      ],
-      '/programming/rust/': [
-        {
-          text: 'Rust 编程',
-          collapsed: false,
-          items: [
-            { text: '概述', link: '/programming/rust/' },
-            { text: '基础语法', link: '/programming/rust/basic-syntax' },
-            { text: '并发编程', link: '/programming/rust/concurrency' }
           ]
         }
       ],

@@ -13,9 +13,6 @@ hero:
     - theme: brand
       text: Go 编程
       link: /programming/go/
-    - theme: sponsor
-      text: Rust 编程
-      link: /programming/rust/
 
 features:
   - icon: 📖
