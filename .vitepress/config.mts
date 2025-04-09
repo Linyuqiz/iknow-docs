@@ -124,6 +124,16 @@ export default defineConfig({
           collapsed: false,
           items: [
             { text: '概述', link: '/architecture/cloud-native/' },
+            {
+              text: "Helm",
+              collapsed: false,
+              items: [
+                { text: "概述", link: "/architecture/cloud-native/helm" },
+                { text: "基本使用", link: "/architecture/cloud-native/helm/basic-usage" },
+                { text: "进阶使用", link: "/architecture/cloud-native/helm/advanced-usage" },
+                { text: "进阶命令", link: "/architecture/cloud-native/helm/advanced-commands" }
+              ]
+            }
           ]
         }
       ],

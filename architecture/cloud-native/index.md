@@ -34,6 +34,22 @@
 - **Amazon ECS**：AWS的容器编排服务
 - **Azure Container Instances**：微软的无服务器容器服务
 
+### Helm 包管理
+
+Helm 是 Kubernetes 的包管理工具，简化了应用的部署和管理：
+
+#### Helm 基础概念
+
+- **Chart**：Helm 包，包含预配置的 Kubernetes 资源
+- **Repository**：Chart 仓库，用于存储和共享 Chart
+- **Release**：Chart 的运行实例，每个安装产生一个新的 release
+- **Values**：用于自定义 Chart 的配置值
+
+> 详细了解 Helm：
+> - [Helm 基本使用](./helm/basic-usage.md)
+> - [Helm 进阶使用](./helm/advanced-usage.md)
+> - [Helm 进阶命令](./helm/advanced-commands.md)
+
 ### 服务网格
 
 服务网格管理服务间通信，提供流量管理、安全和可观测性：
