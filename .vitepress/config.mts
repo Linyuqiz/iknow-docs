@@ -169,7 +169,8 @@ export default defineConfig({
             { text: '概述', link: '/operate-system/dev-tools/' },
             { text: 'curl', link: '/operate-system/dev-tools/curl' },
             { text: 'gRPCurl', link: '/operate-system/dev-tools/grpcurl' },
-            { text: 'rsync', link: '/operate-system/dev-tools/rsync' }
+            { text: 'rsync', link: '/operate-system/dev-tools/rsync' },
+            { text: 'tar', link: '/operate-system/dev-tools/tar' }
           ]
         }
       ],
