@@ -133,6 +133,17 @@ export default defineConfig({
                 { text: "进阶使用", link: "/architecture/cloud-native/helm/advanced-usage" },
                 { text: "进阶命令", link: "/architecture/cloud-native/helm/advanced-commands" }
               ]
+            },
+            {
+              text: "K3s",
+              collapsed: false,
+              items: [
+                { text: "概述", link: "/architecture/cloud-native/k3s/" },
+                { text: "单节点安装", link: "/architecture/cloud-native/k3s/single-node" },
+                { text: "多节点安装", link: "/architecture/cloud-native/k3s/multi-node" },
+                { text: "高可用安装", link: "/architecture/cloud-native/k3s/high-availability" },
+                { text: "基本操作", link: "/architecture/cloud-native/k3s/basic-operations" }
+              ]
             }
           ]
         }
